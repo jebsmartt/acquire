@@ -50,3 +50,29 @@ class Board:
 
         print(f'Updated {self.gameBoard[row].rowSpaces[number].coord} to {self.gameBoard[row].rowSpaces[number].active}')
         
+class Hotel:
+
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.coord = f'{self.row}{self.col}'
+
+class TileBag:
+
+    def __init__(self):
+        self.bag = []
+        
+        for letter in ROW_SET:
+            for number in range(1,NUM_COLS+1):
+                self.bag.append(Hotel(letter,number))
+
+    def see_bag(self):
+        for t in self.bag:
+            print(t.coord)
+
+
+class HotelChain:
+    """Models a hotel chain on the board."""
+
+    def __init__(self) -> None:
+        pass
