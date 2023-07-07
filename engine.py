@@ -1,16 +1,18 @@
 import string
 
-class space:
+NUM_ROWS = 9
+NUM_COLS = 10
+ROW_SET = string.ascii_uppercase[:NUM_ROWS]
+
+class Space:
     """Model the concept on a single space on the gameboard"""
     def __init__(self,row,col):
         self.row = row
         self.col = col
         self.coord = f'{self.row}{self.col}'
-
-    def giveCoord(self):
-        return self.coord
+        self.active = False
         
-class row:
+class Row:
     """Model the concept of a row on a the gameboard"""
 
     def __init__(self,row,numCols):
@@ -20,24 +22,31 @@ class row:
         self.rowSpaces_pp = []
 
         for i in range(1,numCols + 1):
-            self.rowSpaces.append(space(row,i))
+            self.rowSpaces.append(Space(row,i))
         
         # Create a pp list for testing
         for i in self.rowSpaces:
             self.rowSpaces_pp.append(i.coord)
 
-class board:
+class Board:
     """Model the concept of a gameboard"""
 
     def __init__(self):
-        self.numRows = 9
-        self.numCols = 10
         self.gameBoard = []
-        row_set = string.ascii_uppercase[:self.numRows]
+        
 
-        for letter in row_set:
-            self.gameBoard.append(row(letter,self.numCols))
+        for letter in ROW_SET:
+            self.gameBoard.append(Row(letter,NUM_COLS))
 
     def pretty_print_board(self):
         for row in self.gameBoard:
             print(row.rowSpaces_pp)
+
+
+    def play_tile(self,letter,number):
+        row = ROW_SET.index(letter.upper())
+        
+        self.gameBoard[row].rowSpaces[number].active = True
+
+        print(f'Updated {self.gameBoard[row].rowSpaces[number].coord} to {self.gameBoard[row].rowSpaces[number].active}')
+        
