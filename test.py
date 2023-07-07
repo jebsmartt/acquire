@@ -8,4 +8,7 @@ test_game = gb.Board()
 
 test_bag = gb.TileBag()
 
-test_bag.see_bag()
+test_tile = None
+
+test_tile = test_bag.draw_tile()
+
