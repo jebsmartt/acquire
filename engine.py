@@ -17,8 +17,27 @@ class row:
         self.row = row
         self.numCols = numCols
         self.rowSpaces = []
+        self.rowSpaces_pp = []
 
         for i in range(1,numCols + 1):
             self.rowSpaces.append(space(row,i))
+        
+        # Create a pp list for testing
+        for i in self.rowSpaces:
+            self.rowSpaces_pp.append(i.coord)
 
+class board:
+    """Model the concept of a gameboard"""
 
+    def __init__(self):
+        self.numRows = 9
+        self.numCols = 10
+        self.gameBoard = []
+        row_set = string.ascii_uppercase[:self.numRows]
+
+        for letter in row_set:
+            self.gameBoard.append(row(letter,self.numCols))
+
+    def pretty_print_board(self):
+        for row in self.gameBoard:
+            print(row.rowSpaces_pp)

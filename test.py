@@ -1,6 +1,5 @@
 import engine as gb
 
-test_row = gb.row('A',10)
+test_game = gb.board()
 
-for space in test_row.rowSpaces:
-    print(space.coord)
+test_game.pretty_print_board()
