@@ -1,7 +1,9 @@
-import string, random
+import string, random, pygame
 
+WIDTH, HEIGHT = 1000, 900
 NUM_ROWS = 9
 NUM_COLS = 10
+SQUARE_SIZE = WIDTH // NUM_COLS
 ROW_SET = string.ascii_uppercase[:NUM_ROWS]
 
 class Space:
@@ -34,10 +36,22 @@ class Board:
     def __init__(self):
         self.gameBoard = []
         
-
         for letter in ROW_SET:
             self.gameBoard.append(Row(letter,NUM_COLS))
 
+    # Draw board
+    def draw_board(self,window):
+        # Fill yellow backgroung
+        window.fill((232, 221, 169))
+        # Draw grid
+        for row in range(NUM_ROWS):
+            for col in range(NUM_COLS):
+                pygame.draw.rect(
+                    window,
+                    ((0,0,0)),
+                    (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE),
+                    width= 4)
+    
     def pretty_print_board(self):
         for row in self.gameBoard:
             print(row.rowSpaces_pp)
