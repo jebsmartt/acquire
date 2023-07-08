@@ -84,11 +84,6 @@ class TileBag:
         for t in self.bag:
             print(t.coord)
 
-    def draw_tile(self):
-        random_index = random.randrange(len(self.bag))
-        my_tile = self.bag.pop(random_index)
-        print(f"{my_tile.coord}\n")
-        TileBag.see_bag(self)
 
 class HotelChain:
     """Models a hotel chain on the board."""
