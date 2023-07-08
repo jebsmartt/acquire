@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import string, random, pygame
+=======
+import string
+>>>>>>> parent of 10e99a7 (Draw a tile from the bag)
 
 WIDTH, HEIGHT = 1000, 900
 NUM_ROWS = 9
