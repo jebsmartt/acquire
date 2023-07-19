@@ -16,10 +16,10 @@ fetch('../constants.json') // Fetch the JSON file
 
     // Step 2 (Optional): Modify the element
 
-
     // Step 3: Add the element to the page
     const gameboard = document.getElementById('gameboard')
     gameboard.appendChild(grid);
+    grid.setAttribute('id', 'grid')
 
 
     // Add rows and cols to table
@@ -28,15 +28,20 @@ fetch('../constants.json') // Fetch the JSON file
         let grid_row = document.createElement('tr')
 
         grid.appendChild(grid_row)
+        grid_row.setAttribute('class','grid-row')
 
         // Add cols to row
-        for (let y=1; y < NUM_ROWS+1; y++) {
+        for (let y=1; y < (NUM_COLS+1); y++) {
             let grid_cell = document.createElement('td')
+            let grid_cell_button = document.createElement('button')
             grid_cell_label = `${row_indexes[i]}${y}`
-            grid_cell.textContent = grid_cell_label
+            grid_cell_button.textContent = grid_cell_label
 
             grid_row.appendChild(grid_cell)
+            grid_cell.appendChild(grid_cell_button)
             grid_cell.setAttribute('id', grid_cell_label)
+            grid_cell.setAttribute('class', 'grid-cell')
+            grid_cell_button.setAttribute('id', `${grid_cell_label}_button`)
         }
 
     }
