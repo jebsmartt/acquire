@@ -1,4 +1,5 @@
 {
     "num_rows": 9,
-    "num_cols": 10
+    "num_cols": 10,
+    "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 }
