@@ -32,12 +32,16 @@ fetch('../constants.json') // Fetch the JSON file
         // Add cols to row
         for (let y=1; y < NUM_ROWS+1; y++) {
             let grid_cell = document.createElement('td')
-            grid_cell.textContent = `${row_indexes[i]}${y}`
+            grid_cell_label = `${row_indexes[i]}${y}`
+            grid_cell.textContent = grid_cell_label
 
             grid_row.appendChild(grid_cell)
+            grid_cell.setAttribute('id', grid_cell_label)
         }
 
     }
+
+
 
     // Step 1: Create the element
     const helloWorld = document.createElement('p');
