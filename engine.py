@@ -1,7 +1,10 @@
-import string
+import string, json
 
-NUM_ROWS = 9
-NUM_COLS = 10
+with open('constants.json') as json_file:
+    const = json.load(json_file)
+
+NUM_ROWS = const['num_rows']
+NUM_COLS = const['num_cols']
 ROW_SET = string.ascii_uppercase[:NUM_ROWS]
 
 class Space:
