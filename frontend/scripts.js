@@ -42,24 +42,10 @@ fetch('../constants.json') // Fetch the JSON file
             grid_cell.setAttribute('id', grid_cell_label)
             grid_cell.setAttribute('class', 'grid-cell')
             grid_cell_button.setAttribute('id', `${grid_cell_label}_button`)
+            grid_cell_button.setAttribute('class', 'grid-cell-button')
         }
 
-    }
-
-
-
-    // Step 1: Create the element
-    const helloWorld = document.createElement('p');
-
-    // Step 2 (Optional): Modify the element
-    helloWorld.textContent = "Hello World!";
-
-    // Step 3: Add the element to the page
-    const containerDiv = document.getElementById('gameboard');
-    containerDiv.appendChild(helloWorld);
-
-
-
+    }   
 
   })
   .catch(error => console.error('Error fetching/parsing JSON:', error));
