@@ -6,10 +6,10 @@ fetch('../constants.json') // Fetch the JSON file
     const NUM_COLS = data.num_cols;
     const ALPHABET = data.alphabet;
 
-    // Test the constants
-    console.log(NUM_ROWS);
-    console.log(NUM_COLS);
-    console.log(ALPHABET)
+    // // Test the constants
+    // console.log(NUM_ROWS);
+    // console.log(NUM_COLS);
+    // console.log(ALPHABET)
   
     // Step 1: Create the element
     const grid = document.createElement('table')
@@ -30,24 +30,37 @@ fetch('../constants.json') // Fetch the JSON file
         grid.appendChild(grid_row)
         grid_row.setAttribute('class','grid-row')
 
-        // Add cols to row
+        // Add cols and buttons to row
         for (let y=1; y < (NUM_COLS+1); y++) {
             let grid_cell = document.createElement('td')
-            let grid_cell_button = document.createElement('button')
+            // let grid_cell_button = document.createElement('button')
             grid_cell_label = `${row_indexes[i]}${y}`
-            grid_cell_button.textContent = grid_cell_label
+            grid_cell.textContent = grid_cell_label
+            // grid_cell_button.textContent = grid_cell_label
 
             grid_row.appendChild(grid_cell)
-            grid_cell.appendChild(grid_cell_button)
             grid_cell.setAttribute('id', grid_cell_label)
             grid_cell.setAttribute('class', 'grid-cell')
-            grid_cell_button.setAttribute('id', `${grid_cell_label}_button`)
-            grid_cell_button.setAttribute('class', 'grid-cell-button')
+            // grid_cell.appendChild(grid_cell_button)
+            // grid_cell_button.setAttribute('id', `${grid_cell_label}_button`)
+            // grid_cell_button.setAttribute('class', 'grid-cell-button')
+
+            // Add click event listener to each button
+            clickEventListener(grid_cell_label)
         }
 
-    }   
+    }
+    
 
   })
   .catch(error => console.error('Error fetching/parsing JSON:', error));
 
+// Listen for click of button on gameboard grid
+function clickEventListener(id) {
+    const grid_cell = document.getElementById(id)
 
+    grid_cell.addEventListener('click', function() {
+        console.log(`The ${id} cell was clicked`)
+        grid_cell.classList.toggle('grid-cell-played')
+    });
+}

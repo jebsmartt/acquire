@@ -4,11 +4,19 @@ body {
 }
 
 .grid-cell {
-    border: 2px solid black;
     padding: 15px;
+    text-align: center;
+    border: 2px solid black;
 }
 
-.grid-cell-button {
+.grid-cell-played {
+    border: 2px solid white;
+    color: white;
+    background-color: black;
+    font-weight: bold;
+}
+
+/* .grid-cell-button {
     border: none;
     background-color: transparent;
-}
+} */
