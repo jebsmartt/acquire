@@ -12,7 +12,7 @@ fetch('../constants.json') // Fetch the JSON file
     // console.log(ALPHABET)
   
     // Step 1: Create the element
-    const grid = document.createElement('table')
+    const grid = document.createElement('div')
 
     // Step 2 (Optional): Modify the element
 
@@ -25,25 +25,20 @@ fetch('../constants.json') // Fetch the JSON file
     // Add rows and cols to table
     const row_indexes = ALPHABET.slice(0,NUM_ROWS)
     for (let i=0; i < NUM_ROWS; i++) {
-        let grid_row = document.createElement('tr')
+        let grid_row = document.createElement('div')
 
         grid.appendChild(grid_row)
         grid_row.setAttribute('class','grid-row')
 
         // Add cols and buttons to row
         for (let y=1; y < (NUM_COLS+1); y++) {
-            let grid_cell = document.createElement('td')
-            // let grid_cell_button = document.createElement('button')
+            let grid_cell = document.createElement('div')
             grid_cell_label = `${row_indexes[i]}${y}`
             grid_cell.textContent = grid_cell_label
-            // grid_cell_button.textContent = grid_cell_label
 
             grid_row.appendChild(grid_cell)
             grid_cell.setAttribute('id', grid_cell_label)
             grid_cell.setAttribute('class', 'grid-cell')
-            // grid_cell.appendChild(grid_cell_button)
-            // grid_cell_button.setAttribute('id', `${grid_cell_label}_button`)
-            // grid_cell_button.setAttribute('class', 'grid-cell-button')
 
             // Add click event listener to each button
             clickEventListener(grid_cell_label)

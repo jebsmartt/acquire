@@ -1,13 +1,36 @@
-/* This is a td element */
 body {
     font-family:'Times New Roman', Times, serif;
+    margin: 0px 20px;
+}
+
+#grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+}
+
+.grid-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 3px;
 }
 
 .grid-cell {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30px;
+    min-width: 10px;
+    min-height: 10px;
     padding: 15px;
-    text-align: center;
     border: 2px solid black;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: medium;
 }
+
 
 .grid-cell-played {
     border: 2px solid white;
@@ -15,8 +38,3 @@ body {
     background-color: black;
     font-weight: bold;
 }
-
-/* .grid-cell-button {
-    border: none;
-    background-color: transparent;
-} */
