@@ -32,9 +32,6 @@ for (let i=0; i < NUM_ROWS; i++) {
         grid_row.appendChild(grid_cell)
         grid_cell.setAttribute('id', grid_cell_label)
         grid_cell.setAttribute('class', 'grid-cell')
-
-        // // Add click event listener to each button
-        // clickEventListener(grid_cell_label)
     }
 
 }
@@ -70,10 +67,6 @@ function createPlayerZone() {
   
 }
 
-createPlayerZone()
-let session = startGame(1)
-displayPlayerTiles(getPlayerTileBank(session,1))
-
 function displayPlayerTiles(tiles) {
   let tileBank = document.getElementById('player-tile-bank')
 
@@ -83,5 +76,19 @@ function displayPlayerTiles(tiles) {
 
     tileBank.appendChild(tileDiv)
     tileDiv.setAttribute('class','grid-cell')
+
+    tileDiv.addEventListener('click', function() {
+      let matchingGridTile = document.getElementById(tile.name)
+      matchingGridTile.classList.toggle('grid-cell-played')
+    })
   });
 }
+
+function playTile(tileName) {
+  
+}
+
+
+createPlayerZone()
+window.session = startGame(1)
+displayPlayerTiles(getPlayerTileBank(session,1))

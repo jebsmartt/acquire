@@ -12,8 +12,11 @@ export function drawTile(session, playerID, numberOfTiles=1) {
     let player = getPlayerByID(session,playerID)
     let removedTiles = []
     for (let i=0;i<numberOfTiles;i++) {
-        let indexToPull = getRandomInt(0,session.tileBag.length)
+        console.log(i+1)
+        let indexToPull = getRandomInt(0,(session.tileBag.length-1))
+        console.log(indexToPull)
         let removedTile = session.tileBag.splice(indexToPull,1)
+        console.log(removedTile[0].name)
         removedTiles.push(...removedTile)
     }
     
