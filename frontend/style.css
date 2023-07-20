@@ -65,3 +65,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+#player-tile-bank {
+    cursor: pointer;
+}
