@@ -32,7 +32,7 @@ body {
 .grid-cell {
     flex-grow: 0;
     flex-shrink: 1;
-    flex-basis: 30px;
+    flex-basis: 35px;
     min-width: 10px;
     min-height: 10px;
     padding: 10px;
@@ -54,18 +54,28 @@ body {
 
 #player-zone {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding-top: 15px;
     padding-left: 20px;
     padding-right: 20px;
-    gap: 20px;
+    gap: 10px;
 }
 
-#tile-bank-div {
+#tile-tray-div {
     display: flex;
     flex-direction: column;
 }
 
-#player-tile-bank {
+#player-tile-tray {
     cursor: pointer;
+}
+
+#player-tile-tray-div,
+#player-message-box-div,
+#player-share-collection-div {
+    border: 2px solid black;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-grow: 1;
 }

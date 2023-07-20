@@ -2,9 +2,9 @@ const NUM_ROWS = 9
 const NUM_COLS = 10
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-export function getPlayerTileBank(session, playerID) {
+export function getPlayerTileTray(session, playerID) {
     let player = getPlayerByID(session,playerID)
-    return player.tileBank
+    return player.tileTray
 }
 
 // PlayerID is the ID number, not the player object
@@ -17,13 +17,15 @@ export function drawTile(session, playerID, numberOfTiles=1) {
         removedTiles.push(...removedTile)
     }
     
-    player.tileBank.push(...removedTiles)
+    player.tileTray.push(...removedTiles)
 }
 
+// Create game session instance
 export function startGame(numPlayers) {
     let session = {
         tileBag: createTileBag(),
-        players: createPlayers(numPlayers)
+        players: createPlayers(numPlayers),
+        activePlayer: 1
     }
 
     session.players.forEach(player => {
@@ -57,7 +59,7 @@ function createPlayers(numPlayers) {
         let playerDetails = {
             id : i,
             name: `Player ${i}`,
-            tileBank: [],
+            tileTray: [],
             shareCollection: [],
         }
         playerArray.push(playerDetails)
