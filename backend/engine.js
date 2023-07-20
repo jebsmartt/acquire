@@ -2,12 +2,6 @@ const NUM_ROWS = 9
 const NUM_COLS = 10
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-function startGame() {
-    let sessionDetails = {
-        tileBag: createTileBag()
-    }
-    return sessionDetails
-}
 
 function createTileBag() {
     const tileBag = []
@@ -27,18 +21,59 @@ function createTileBag() {
     return tileBag
 }
 
+function createPlayers(numPlayers) {
+    let playerArray = []
+    for (let i=1;i<(numPlayers+1);i++) {
+        let playerDetails = {
+            id : i,
+            name: `Player ${i}`,
+            tileBank: [],
+            shareCollection: [],
+        }
+        playerArray.push(playerDetails)
+    }
+    return playerArray 
+}
+
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-function drawTile(session, numberOfTiles=1) {
-    let indexToPull = getRandomInt(0,session.tileBag.length)
-    const removedTiles = session.tileBag.splice(indexToPull,numberOfTiles)
-    return removedTiles
+function getPlayerByID(session, playerID) {
+    // returns a player object
+    return session.players[(playerID-1)]
 }
 
-const session = startGame()
-console.log(drawTile(session,6)[0].name)
+// PlayerID is the ID number, not the player object
+function drawTile(session, playerID, numberOfTiles=1) {
+    let player = getPlayerByID(session,playerID)
+    let removedTiles = []
+    for (let i=0;i<numberOfTiles;i++) {
+        let indexToPull = getRandomInt(0,session.tileBag.length)
+        let removedTile = session.tileBag.splice(indexToPull,1)
+        removedTiles.push(...removedTile)
+    }
+    
+    player.tileBank.push(...removedTiles)
+}
+
+function startGame(numPlayers) {
+    let session = {
+        tileBag: createTileBag(),
+        players: createPlayers(numPlayers)
+    }
+
+    session.players.forEach(player => {
+        drawTile(session,player.id,6)
+    });
+    return session
+}
+
+const session = startGame(1)
+
+
+// console.log(drawTile(session,6)[0].name)
 
 
 
