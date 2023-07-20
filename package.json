@@ -1,0 +1,12 @@
+{
+  "name": "acquire",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Play Acquire in a browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
