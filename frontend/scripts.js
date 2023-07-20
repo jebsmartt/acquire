@@ -2,7 +2,6 @@ const NUM_ROWS = 9
 const NUM_COLS = 10
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-
 // Step 1: Create the element
 const grid = document.createElement('div')
 
