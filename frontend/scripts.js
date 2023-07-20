@@ -77,15 +77,20 @@ function displayPlayerTiles(tiles) {
     tileBank.appendChild(tileDiv)
     tileDiv.setAttribute('class','grid-cell')
 
+    // tileDiv.addEventListener('click', function() {
+    //   let matchingGridTile = document.getElementById(tile.name)
+    //   matchingGridTile.classList.toggle('grid-cell-played')
+    // })
     tileDiv.addEventListener('click', function() {
-      let matchingGridTile = document.getElementById(tile.name)
-      matchingGridTile.classList.toggle('grid-cell-played')
+      playTile(tile.name)
     })
+
   });
 }
 
 function playTile(tileName) {
-  
+  let matchingGridTile = document.getElementById(tileName)
+      matchingGridTile.classList.toggle('grid-cell-played')
 }
 
 
