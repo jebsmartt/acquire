@@ -45,6 +45,8 @@ fetch('../constants.json') // Fetch the JSON file
         }
 
     }
+
+    createPlayerZone()
     
 
   })
@@ -58,4 +60,22 @@ function clickEventListener(id) {
         console.log(`The ${id} cell was clicked`)
         grid_cell.classList.toggle('grid-cell-played')
     });
+}
+
+// Create a zone for the player to have their tiles and shares
+function createPlayerZone() {
+  const playerZone = document.getElementById('player-zone')
+
+  // Step 1: Create the element
+  const tileBank = document.createElement('div')
+  const shareCollection = document.createElement('div')
+  
+  // Step 2 (Optional): Modify the element
+  tileBank.textContent = "This is the tile bank"
+  shareCollection.textContent = "This is the share collection area"
+
+  // Step 3: Add the element to the page
+  playerZone.appendChild(tileBank)
+  playerZone.appendChild(shareCollection)
+  
 }

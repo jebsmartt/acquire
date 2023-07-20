@@ -3,7 +3,13 @@ body {
     margin-top: 0px;
     margin-right: 20px;
     margin-bottom: 20px;
-    margin-left: 0px;
+    margin-left: 20px;
+}
+
+#page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #page-content h1 {
@@ -44,4 +50,13 @@ body {
     color: white;
     background-color: black;
     font-weight: bold;
+}
+
+#player-zone {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 20px;
 }
