@@ -29,7 +29,8 @@ body {
     gap: 3px;
 }
 
-.grid-cell {
+.grid-cell,
+.grid-cell-clickable {
     flex-grow: 0;
     flex-shrink: 1;
     flex-basis: 35px;
@@ -44,6 +45,9 @@ body {
     font-size: medium;
 }
 
+.grid-cell-clickable {
+    cursor: pointer;
+}
 
 .grid-cell-played {
     border: 2px solid white;
@@ -52,13 +56,24 @@ body {
     font-weight: bold;
 }
 
-#player-zone {
+#player-zone-collection {
+    display:flex;
+    flex-direction: column;
+}
+
+.player-zones,
+.player-zones-active {
     display: flex;
     justify-content: center;
     padding-top: 15px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 15px;
     gap: 10px;
+}
+
+.player-zones-active {
+    background-color: lightyellow;
 }
 
 #tile-tray-div {
@@ -66,13 +81,7 @@ body {
     flex-direction: column;
 }
 
-#player-tile-tray {
-    cursor: pointer;
-}
-
-#player-tile-tray-div,
-#player-message-box-div,
-#player-share-collection-div {
+.player-zone-component {
     border: 2px solid black;
     padding-bottom: 10px;
     padding-left: 10px;

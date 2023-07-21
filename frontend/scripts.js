@@ -42,53 +42,69 @@ for (let i=0; i < NUM_ROWS; i++) {
 }
 
 // Create a zone for the player to have their tiles and shares
-function createPlayerZone() {
-  const playerZone = document.getElementById('player-zone')
+function createPlayerZone(numPlayers) {
+  const playerZoneCollection = document.getElementById('player-zone-collection')
 
-  // Step 1: Create the element
-  const tileTray = document.createElement('div')
-  const messageBox = document.createElement('div')
-  const shareCollection = document.createElement('div')
+  for (let i=1;i <= numPlayers;i++) {
+    //create div for each player
+    const playerZone = document.createElement('div')
+    playerZoneCollection.appendChild(playerZone)
+    
+    playerZone.setAttribute('id',`player${i}-zone`)
+    playerZone.setAttribute('class',`player-zones`)
   
-  const tileTrayTitle = document.createElement('h3')
-  const tileTrayTiles = document.createElement('div')
-
-  const messageBoxTitle = document.createElement('h3')
-
-  // Step 2 (Optional): Modify the element
-  tileTrayTitle.textContent = "Tile Tray"
-  messageBoxTitle.textContent = "Hello World!"
-  shareCollection.textContent = "This is the share collection area"
-
-  // Step 3: Add the element to the page
-  playerZone.appendChild(tileTray)
-  playerZone.appendChild(messageBox)
-  playerZone.appendChild(shareCollection)
-
-  tileTray.appendChild(tileTrayTitle)
-  tileTray.appendChild(tileTrayTiles)
-
-  messageBox.appendChild(messageBoxTitle)
-
-
-  tileTray.setAttribute('id','player-tile-tray-div')
-  tileTrayTiles.setAttribute('id', 'player-tile-tray')
-  tileTrayTiles.setAttribute('class','grid-row')
-  messageBox.setAttribute('id','player-message-box-div')
-  shareCollection.setAttribute('id','player-share-collection-div')
-
-
+    // Step 1: Create the elements for each playerZone
+    const tileTray = document.createElement('div')
+    const messageBox = document.createElement('div')
+    const shareCollection = document.createElement('div')
+    
+    const tileTrayTitle = document.createElement('h3')
+    const tileTrayTiles = document.createElement('div')
   
+    const messageBoxTitle = document.createElement('h3')
+  
+    // Step 2 (Optional): Modify the elements
+    tileTrayTitle.textContent = `Player ${i} Tile Tray`
+    messageBoxTitle.textContent = "Hello World!"
+    shareCollection.textContent = "This is the share collection area"
+  
+    // Step 3: Add the element to the playerZone
+    playerZone.appendChild(tileTray)
+    playerZone.appendChild(messageBox)
+    playerZone.appendChild(shareCollection)
+  
+    tileTray.appendChild(tileTrayTitle)
+    tileTray.appendChild(tileTrayTiles)
+  
+    messageBox.appendChild(messageBoxTitle)
+  
+  
+    tileTray.setAttribute('id',`player${i}-tile-tray-div`)
+    tileTray.setAttribute('class',`player-zone-component`)
+    tileTrayTiles.setAttribute('id', `player${i}-tile-tray`)
+    tileTrayTiles.setAttribute('class','grid-row')
+    messageBox.setAttribute('id',`player${i}-message-box-div`)
+    messageBox.setAttribute('class',`player-zone-component`)
+    shareCollection.setAttribute('id',`player${i}-share-collection-div`)
+    shareCollection.setAttribute('class',`player-zone-component`)
+
+    // Display the players tiles in UI
+    displayPlayerTiles(getPlayerTileTray(session,i),i)
+  }
+  
+  // Highlight active player
+  highlightActivePlayer(session)
 }
 
-function displayPlayerTiles(tiles) {
-  let tileTray = document.getElementById('player-tile-tray')
+function displayPlayerTiles(tiles,playerID) {
+  let tileTray = document.getElementById(`player${playerID}-tile-tray`)
 
-  // check if div is empty
+  // clear div if not empty
   while (tileTray.firstChild) {
     tileTray.removeChild(tileTray.firstChild)
   } 
 
+  console.log(tiles)
   tiles.forEach(tile => {
     let tileDiv = document.createElement('div')
     tileDiv.textContent = tile.name
@@ -111,11 +127,10 @@ function playTile(session, playerID, tileName) {
   //remove tile from player object
   removeTileFromTray(session, playerID, tileName)
 
-  console.log('we got here')
-
-  setTimeout(() => {
-    takeTurn(session, playerID, 2);
-  }, 2000);
+  takeTurn(session, playerID, 2)
+  // setTimeout(() => {
+  //   takeTurn(session, playerID, 2);
+  // }, 2000);
 }
 
 function buyStock(playerID) {
@@ -124,16 +139,22 @@ function buyStock(playerID) {
 }
 
 function endTurn(session) {
+  highlightActivePlayer(session)
   if (session.activePlayer < session.players.length) {
     session.activePlayer += 1
   } else {
     session.activePlayer = 1
   }
   console.log(`Session.ActivePlayer set to ${session.activePlayer}`)
+  highlightActivePlayer(session)
   takeTurn(session, session.activePlayer,1)
 }
 
-
+function highlightActivePlayer(session) {
+  let target = document.getElementById(`player${session.activePlayer}-zone`)
+  target.classList.toggle('player-zones-active')
+  console.log('we got here')
+}
 
 
 
@@ -146,7 +167,7 @@ function takeTurn(session, playerID, phase) {
   if (phase === 1) {
     console.log("Its now Phase 1 of the turn")
     // Allow player to play a tile
-    let tileTray = document.getElementById('player-tile-tray')
+    let tileTray = document.getElementById(`player${playerID}-tile-tray`)
     let tiles = tileTray.querySelectorAll('div');
     
     function handleClickTile() {
@@ -155,16 +176,17 @@ function takeTurn(session, playerID, phase) {
 
     tiles.forEach((tile) => {
       tile.addEventListener('click', handleClickTile)
+      tile.classList.toggle('grid-cell-clickable')
     })
 
   } else if (phase === 2) {
     console.log("Its now Phase 2 of the turn")
     // Remove ability to play tile
-    let tileTray = document.getElementById('player-tile-tray')
+    let tileTray = document.getElementById(`player${playerID}-tile-tray`)
     let tiles = tileTray.querySelectorAll('div');
-    console.log(tiles)
     
     tiles.forEach((tile) => {
+      tile.classList.toggle('grid-cell')
       tile.removeEventListener('click', function() {
         playTile(tile.name)
       })
@@ -176,12 +198,12 @@ function takeTurn(session, playerID, phase) {
   } else if (phase === 3) {
     console.log("Its now Phase 3 of the turn")
     drawTile(session, playerID)
-    displayPlayerTiles(getPlayerTileTray(session,playerID))
+    displayPlayerTiles(getPlayerTileTray(session,playerID),playerID)
     endTurn(session, playerID)
   }
 }
 
-createPlayerZone()
-window.session = startGame(1)
-displayPlayerTiles(getPlayerTileTray(session,1))
+const numPlayers = 2
+window.session = startGame(numPlayers)
+createPlayerZone(numPlayers)
 takeTurn(session,session.activePlayer,1)
