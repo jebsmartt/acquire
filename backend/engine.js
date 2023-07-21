@@ -24,6 +24,13 @@ export function drawTile(session, playerID, numberOfTiles=1) {
 export function startGame(numPlayers) {
     let session = {
         tileBag: createTileBag(),
+        towerBank: 25,
+        luxorBank: 25,
+        americanBank: 25,
+        worldwideBank: 25,
+        festivalBank: 25,
+        imperialBank: 25,
+        continentalBank: 25,
         players: createPlayers(numPlayers),
         activePlayer: 1
     }
@@ -61,6 +68,61 @@ function createTileBag() {
         }
     }
     return tileBag
+}
+
+// Provides object with corresponding value(s) of an individual share
+// ...given the current size of the hotel chain
+function getShareValue(hotel, hotelSize) {
+    // takes hotel and makes lowercase
+    let hotelName = hotel.toLowerCase()
+
+    // Establish hotel tiers
+    let budgetHotels = ['tower','luxor']
+    let standardHotels = ['american','worldwide','festival']
+    let premiumHotels = ['imperial','continental']
+    
+    // Create share value reference table
+    const shareValueReferenceArray = []
+    for (let s=200;s<=1200;s+=100) {
+        shareValueReferenceArray.push(
+            {valuePerShare: s, firstBonus: s*10, secondBonus: s*10/2}
+        )
+    }
+    
+    // Determine what index to use to search the reference array
+    function getReferenceTableIndex() {
+        if (hotelSize < 2) {
+            return console.log('Unexpected: Hotel size less than 2')
+        } else if (hotelSize >= 2 && hotelSize <= 5) {
+            return (hotelSize - 2)
+        } else if (hotelSize >= 6 && hotelSize <= 10) {
+            return 4
+        } else if (hotelSize >= 11 && hotelSize <= 20) {
+            return 5
+        } else if (hotelSize >= 21 && hotelSize <= 30) {
+            return 6
+        } else if (hotelSize >= 31 && hotelSize <= 40) {
+            return 7
+        } else if (hotelSize >= 41) {
+            return 8
+        }
+    }
+    
+    // Modifies the search index based on hotelName tier
+    function tierModifiedIndex() {
+        if (budgetHotels.includes(hotelName)) {
+            return getReferenceTableIndex(hotelSize)
+        } else if (standardHotels.includes(hotelName)) {
+            return getReferenceTableIndex((hotelSize+1))
+        } else if (premiumHotels.includes(hotelName)) {
+            return getReferenceTableIndex((hotelSize+2))
+        }
+    }
+
+    // Should copy the object at the index provided by tierModifiedIndex
+    let shareReferenceValues = shareValueReferenceArray[tierModifiedIndex()]
+    // Should return an object
+    return shareReferenceValues
 }
 
 function createPlayers(numPlayers) {

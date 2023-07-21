@@ -41,6 +41,12 @@ for (let i=0; i < NUM_ROWS; i++) {
 
 }
 
+// Create the marketplace, where shares can be purchased
+const marketplace = document.createElement('div')
+gameboard.appendChild(marketplace)
+marketplace.setAttribute('id','marketplace')
+
+
 // Create a zone for the player to have their tiles and shares
 function createPlayerZone(numPlayers) {
   const playerZoneCollection = document.getElementById('player-zone-collection')
@@ -203,7 +209,7 @@ function takeTurn(session, playerID, phase) {
   }
 }
 
-const numPlayers = 2
+const numPlayers = 2 
 window.session = startGame(numPlayers)
 createPlayerZone(numPlayers)
 takeTurn(session,session.activePlayer,1)
