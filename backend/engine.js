@@ -34,6 +34,15 @@ export function startGame(numPlayers) {
     return session
 }
 
+export function removeTileFromTray(session, playerID, tileName) {
+    let player = getPlayerByID(session,playerID)
+    const valueToRemove = tileName;
+
+    const indexToRemove = player.tileTray.indexOf(valueToRemove);
+    if (indexToRemove !== -1) {
+    session.players[(playerID-1)].tileTray.splice(indexToRemove, 1);
+    }
+}
 
 function createTileBag() {
     const tileBag = []
@@ -76,3 +85,4 @@ function getPlayerByID(session, playerID) {
     // returns a player object
     return session.players[(playerID-1)]
 }
+

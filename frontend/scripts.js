@@ -1,4 +1,9 @@
-import { startGame,drawTile,getPlayerTileTray } from '../backend/engine.js';
+import { 
+  startGame,
+  drawTile,
+  getPlayerTileTray,
+  removeTileFromTray
+} from '../backend/engine.js';
 
 const NUM_ROWS = 9
 const NUM_COLS = 10
@@ -85,15 +90,25 @@ function displayPlayerTiles(tiles) {
 
     tileTray.appendChild(tileDiv)
     tileDiv.setAttribute('class','grid-cell')
+    tileDiv.setAttribute('id',`${tile.name}-tray`)
 
   });
 }
 
-function playTile(playerID, tileName) {
+function playTile(session, playerID, tileName) {
   let matchingGridTile = document.getElementById(tileName)
+  console.log(matchingGridTile)
   matchingGridTile.classList.toggle('grid-cell-played')
 
-  takeTurn(playerID, 2)
+  // remove tile from tray
+  let tileInTray = document.getElementById(`${tileName}-tray`)
+  tileInTray.remove()
+
+  //remove tile from player object
+  removeTileFromTray(session, playerID, tileName)
+
+  console.log('we got here')
+  takeTurn(session, playerID, 2)
 }
 
 function buyStock(playerID) {
@@ -103,7 +118,7 @@ function buyStock(playerID) {
   } 
 
   // Call only once stock phase is over
-  takeTurn(playerID,3)
+  takeTurn(session, playerID,3)
 }
 
 function endTurn(session) {
@@ -113,10 +128,10 @@ function endTurn(session) {
     session.activePlayer = 1
   }
   console.log(`Session.ActivePlayer set to ${session.activePlayer}`)
-  takeTurn(session.activePlayer,1)
+  takeTurn(session, session.activePlayer,1)
 }
 
-function takeTurn(playerID, phase) {
+function takeTurn(session, playerID, phase) {
   // Phase 1: Play a Tile
   // Phase 2: Buy Stock
   // Phase 3: End Turn
@@ -128,11 +143,12 @@ function takeTurn(playerID, phase) {
     let tiles = tileTray.querySelectorAll('div');
     
     function handleClickTile() {
-      playTile(playerID,this.textContent)
+      playTile(session,playerID,this.textContent)
     }
 
     tiles.forEach((tile) => {
       tile.addEventListener('click', handleClickTile)
+      console.log("added click listener")
     })
 
   } else if (phase === 2) {
@@ -160,4 +176,4 @@ function takeTurn(playerID, phase) {
 createPlayerZone()
 window.session = startGame(1)
 displayPlayerTiles(getPlayerTileTray(session,1))
-takeTurn(session.activePlayer,1)
+takeTurn(session,session.activePlayer,1)
