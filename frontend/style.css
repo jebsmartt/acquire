@@ -126,6 +126,10 @@ body {
 
 .share-collection {
     flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
 }
 
 .player-zones-active {

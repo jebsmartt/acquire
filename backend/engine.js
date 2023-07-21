@@ -132,7 +132,13 @@ function createPlayers(numPlayers) {
             id : i,
             name: `Player ${i}`,
             tileTray: [],
-            shareCollection: [],
+            tower: 0,
+            luxor: 0,
+            american: 0,
+            worldwide: 0,
+            festival: 0,
+            imperial: 0,
+            continental: 0,
         }
         playerArray.push(playerDetails)
     }

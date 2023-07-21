@@ -89,7 +89,6 @@ function createPlayerZone(numPlayers) {
   
     // Step 1: Create the elements for each playerZone
     const tileTray = document.createElement('div')
-    // const messageBox = document.createElement('div')
     const shareCollection = document.createElement('div')
     
     const tileTrayTitle = document.createElement('h3')
@@ -99,28 +98,42 @@ function createPlayerZone(numPlayers) {
   
     // Step 2 (Optional): Modify the elements
     tileTrayTitle.textContent = `Player ${i} Tile Tray`
-    // messageBoxTitle.textContent = "Hello World!"
-    shareCollection.textContent = "This is the share collection area"
   
     // Step 3: Add the element to the playerZone
     playerZone.appendChild(tileTray)
-    // playerZone.appendChild(messageBox)
+
     playerZone.appendChild(shareCollection)
   
     tileTray.appendChild(tileTrayTitle)
     tileTray.appendChild(tileTrayTiles)
   
-    // messageBox.appendChild(messageBoxTitle)
+
   
   
     tileTray.setAttribute('id',`player${i}-tile-tray-div`)
     tileTray.setAttribute('class',`tile-tray`)
     tileTrayTiles.setAttribute('id', `player${i}-tile-tray`)
     tileTrayTiles.setAttribute('class','grid-row')
-    // messageBox.setAttribute('id',`player${i}-message-box-div`)
-    // messageBox.setAttribute('class',`player-zone-component`)
+
     shareCollection.setAttribute('id',`player${i}-share-collection-div`)
     shareCollection.setAttribute('class',`share-collection`)
+
+    // Used for buy stock feature building. To be updated.
+    let hotels = budgetHotels.concat(standardHotels,premiumHotels)
+
+    hotels.forEach(hotel => {
+      const buyStockDiv = document.createElement('div')
+      shareCollection.appendChild(buyStockDiv)
+
+      const stockCounter = document.createElement('h5')
+      const buyStockButton = document.createElement('button')
+      buyStockDiv.appendChild(stockCounter)
+      buyStockDiv.appendChild(buyStockButton)
+      stockCounter.setAttribute('id',`player${i}-${hotel}-counter`)
+      buyStockButton.setAttribute('hotel',hotel)
+      stockCounter.textContent = `${toTitleCase(hotel)}: 0`
+      buyStockButton.textContent = `Buy ${toTitleCase(hotel)} Stock`
+    });
 
     // Display the players tiles in UI
     displayPlayerTiles(getPlayerTileTray(session,i),i)
@@ -164,11 +177,6 @@ function playTile(session, playerID, tileName) {
   // setTimeout(() => {
   //   takeTurn(session, playerID, 2);
   // }, 2000);
-}
-
-function buyStock(playerID) {
-  // Call only once stock phase is over
-  takeTurn(session, playerID,3)
 }
 
 function endTurn(session) {
@@ -224,8 +232,49 @@ function takeTurn(session, playerID, phase) {
       })
     })
 
-    // Allow player to buy stock
-    buyStock(playerID)
+    // Add click event listener for stock buttons
+    let shareCollection = document.getElementById(`player${playerID}-share-collection-div`)
+    let stockButtons = shareCollection.querySelectorAll('button');
+    let stockPurchaseCounter = 0
+
+    // Keep track of stock purchases
+    function checkStockPurchaseCounter () {
+      if (stockPurchaseCounter === 3) {
+        takeTurn(session, playerID,3)
+      } else {
+        console.log(`Player ${1} has bought ${stockPurchaseCounter} shares.`)
+      }
+    }
+
+    function handleClickStockButton(hotelName) {
+      if (session[hotelName] > 0) {
+        // Decrement the bank
+        session[hotelName] = session[hotelName] - 1
+          // NEED TO UPDATE UI WITH NEW BANK NUMBER
+
+        // Increment player collection
+        let playerStockLevel = session.players[playerID][`${hotelName}`]
+        console.log(playerStockLevel)
+        let newPlayerStockLevel = playerStockLevel + 1
+
+        let stockCounter = document.getElementById(`player${playerID}-${hotelName}-counter`)
+        stockCounter.textContent = `${toTitleCase(hotelName)}: ${newPlayerStockLevel}`
+
+        stockPurchaseCounter = stockPurchaseCounter + 1
+        checkStockPurchaseCounter()
+
+      } else {
+        console.log(`No shares left for ${hotelName}`)
+      }
+    }
+
+    stockButtons.forEach((button) => {
+      
+      button.addEventListener('click', function() {
+        let hotelName = button.getAttribute('hotel')
+        handleClickStockButton(hotelName)
+      })
+    })
 
   } else if (phase === 3) {
     console.log("Its now Phase 3 of the turn")
