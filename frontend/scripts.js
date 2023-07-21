@@ -84,6 +84,11 @@ function createPlayerZone() {
 function displayPlayerTiles(tiles) {
   let tileTray = document.getElementById('player-tile-tray')
 
+  // check if div is empty
+  while (tileTray.firstChild) {
+    tileTray.removeChild(tileTray.firstChild)
+  } 
+
   tiles.forEach(tile => {
     let tileDiv = document.createElement('div')
     tileDiv.textContent = tile.name
@@ -97,7 +102,6 @@ function displayPlayerTiles(tiles) {
 
 function playTile(session, playerID, tileName) {
   let matchingGridTile = document.getElementById(tileName)
-  console.log(matchingGridTile)
   matchingGridTile.classList.toggle('grid-cell-played')
 
   // remove tile from tray
@@ -108,15 +112,13 @@ function playTile(session, playerID, tileName) {
   removeTileFromTray(session, playerID, tileName)
 
   console.log('we got here')
-  takeTurn(session, playerID, 2)
+
+  setTimeout(() => {
+    takeTurn(session, playerID, 2);
+  }, 2000);
 }
 
 function buyStock(playerID) {
-  const userInput = prompt('Buy stock: ')
-  if(userInput === "y") {
-    console.log("Let's pretend that a player bought stock!")
-  } 
-
   // Call only once stock phase is over
   takeTurn(session, playerID,3)
 }
@@ -130,6 +132,11 @@ function endTurn(session) {
   console.log(`Session.ActivePlayer set to ${session.activePlayer}`)
   takeTurn(session, session.activePlayer,1)
 }
+
+
+
+
+
 
 function takeTurn(session, playerID, phase) {
   // Phase 1: Play a Tile
@@ -148,7 +155,6 @@ function takeTurn(session, playerID, phase) {
 
     tiles.forEach((tile) => {
       tile.addEventListener('click', handleClickTile)
-      console.log("added click listener")
     })
 
   } else if (phase === 2) {
@@ -156,6 +162,7 @@ function takeTurn(session, playerID, phase) {
     // Remove ability to play tile
     let tileTray = document.getElementById('player-tile-tray')
     let tiles = tileTray.querySelectorAll('div');
+    console.log(tiles)
     
     tiles.forEach((tile) => {
       tile.removeEventListener('click', function() {
@@ -169,6 +176,7 @@ function takeTurn(session, playerID, phase) {
   } else if (phase === 3) {
     console.log("Its now Phase 3 of the turn")
     drawTile(session, playerID)
+    displayPlayerTiles(getPlayerTileTray(session,playerID))
     endTurn(session, playerID)
   }
 }
