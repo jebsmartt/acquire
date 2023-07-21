@@ -19,6 +19,7 @@ body {
 #gameboard {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 10px;
 }
 
 #grid {
@@ -26,7 +27,6 @@ body {
     flex-direction: column;
     align-items: stretch;
     gap: 3px;
-    margin-bottom: 10px;
 }
 
 .grid-row {
@@ -38,7 +38,7 @@ body {
 .grid-cell,
 .grid-cell-clickable {
     flex-grow: 0;
-    flex-shrink: 1;
+    /* flex-shrink: 1; */
     flex-basis: 35px;
     min-width: 10px;
     min-height: 10px;
@@ -62,6 +62,38 @@ body {
     font-weight: bold;
 }
 
+#marketplace {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    max-width: 400px;
+    flex-grow: 1;
+}
+
+.hotel-tier {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+#standard-hotels {
+    min-width: 320px;
+}
+
+.marketplace-share-div {
+    border: 1px solid black;
+    aspect-ratio: 2.5 / 3.5;
+    flex-basis: 100px;
+    min-width: 45px;
+    min-height: 63px;
+}
+
 #player-zone-collection {
     display:flex;
     flex-direction: column;
@@ -78,6 +110,24 @@ body {
     gap: 10px;
 }
 
+.tile-tray,
+.share-collection {
+    border: 2px solid black;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-grow: 1;
+}
+
+.tile-tray {
+    max-width: 400px;
+    flex-shrink: 5;
+}
+
+.share-collection {
+    flex-shrink: 1;
+}
+
 .player-zones-active {
     background-color: lightyellow;
 }
@@ -85,12 +135,4 @@ body {
 #tile-tray-div {
     display: flex;
     flex-direction: column;
-}
-
-.player-zone-component {
-    border: 2px solid black;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    flex-grow: 1;
 }

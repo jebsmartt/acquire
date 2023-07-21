@@ -2,6 +2,11 @@ const NUM_ROWS = 9
 const NUM_COLS = 10
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+// Establish hotel tiers
+const budgetHotels = ['tower','luxor']
+const standardHotels = ['american','worldwide','festival']
+const premiumHotels = ['imperial','continental']
+
 export function getPlayerTileTray(session, playerID) {
     let player = getPlayerByID(session,playerID)
     return player.tileTray
@@ -24,13 +29,13 @@ export function drawTile(session, playerID, numberOfTiles=1) {
 export function startGame(numPlayers) {
     let session = {
         tileBag: createTileBag(),
-        towerBank: 25,
-        luxorBank: 25,
-        americanBank: 25,
-        worldwideBank: 25,
-        festivalBank: 25,
-        imperialBank: 25,
-        continentalBank: 25,
+        tower: 25,
+        luxor: 25,
+        american: 25,
+        worldwide: 25,
+        festival: 25,
+        imperial: 25,
+        continental: 25,
         players: createPlayers(numPlayers),
         activePlayer: 1
     }
@@ -75,11 +80,6 @@ function createTileBag() {
 function getShareValue(hotel, hotelSize) {
     // takes hotel and makes lowercase
     let hotelName = hotel.toLowerCase()
-
-    // Establish hotel tiers
-    let budgetHotels = ['tower','luxor']
-    let standardHotels = ['american','worldwide','festival']
-    let premiumHotels = ['imperial','continental']
     
     // Create share value reference table
     const shareValueReferenceArray = []
