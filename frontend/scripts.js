@@ -71,6 +71,7 @@ function createMarketplace (session) {
       elementID.appendChild(shareMarket)
       shareMarket.textContent = `${hotel} - ${session[hotel]}`
       shareMarket.setAttribute('class','marketplace-share-div')
+      shareMarket.setAttribute('id',`${hotel}-share-bank`)
     });
   }
 }
@@ -198,7 +199,7 @@ function highlightActivePlayer(session) {
 
 
 
-
+let stockPurchaseCounter = 0
 function takeTurn(session, playerID, phase) {
   // Phase 1: Play a Tile
   // Phase 2: Buy Stock
@@ -210,56 +211,46 @@ function takeTurn(session, playerID, phase) {
     let tileTray = document.getElementById(`player${playerID}-tile-tray`)
     let tiles = tileTray.querySelectorAll('div');
     
-    function handleClickTile() {
+    function handleTileClick() {
       playTile(session,playerID,this.textContent)
+      tiles.forEach((tile) => {
+        tile.removeEventListener('click', handleTileClick)
+        tile.classList.toggle('grid-cell-clickable')
+      })
     }
 
     tiles.forEach((tile) => {
-      tile.addEventListener('click', handleClickTile)
+      tile.addEventListener('click', handleTileClick)
       tile.classList.toggle('grid-cell-clickable')
     })
 
   } else if (phase === 2) {
     console.log("Its now Phase 2 of the turn")
-    // Remove ability to play tile
-    let tileTray = document.getElementById(`player${playerID}-tile-tray`)
-    let tiles = tileTray.querySelectorAll('div');
     
-    tiles.forEach((tile) => {
-      tile.classList.toggle('grid-cell')
-      tile.removeEventListener('click', function() {
-        playTile(tile.name)
-      })
-    })
-
     // Add click event listener for stock buttons
     let shareCollection = document.getElementById(`player${playerID}-share-collection-div`)
     let stockButtons = shareCollection.querySelectorAll('button');
-    let stockPurchaseCounter = 0
+    
+    console.log(`Here is the stockPurchaseCounter: ${stockPurchaseCounter}`)
 
-    // Keep track of stock purchases
-    function checkStockPurchaseCounter () {
-      if (stockPurchaseCounter === 3) {
-        takeTurn(session, playerID,3)
-      } else {
-        console.log(`Player ${1} has bought ${stockPurchaseCounter} shares.`)
-      }
-    }
-
-    function handleClickStockButton(hotelName) {
+    
+    function handleClickStockButton() {
+      let hotelName = this.getAttribute('hotel')
       if (session[hotelName] > 0) {
         // Decrement the bank
         session[hotelName] = session[hotelName] - 1
-          // NEED TO UPDATE UI WITH NEW BANK NUMBER
+        // UPDATE UI WITH NEW BANK NUMBER
+        let hotelShareBank = document.getElementById(`${hotelName}-share-bank`)
+        hotelShareBank.textContent = `${hotelName} - ${session[hotelName]}`
 
         // Increment player collection
-        let playerStockLevel = session.players[playerID][`${hotelName}`]
-        console.log(playerStockLevel)
-        let newPlayerStockLevel = playerStockLevel + 1
+        session.players[(playerID-1)][hotelName] = session.players[(playerID-1)][hotelName] +1
+        let playerStockLevel = session.players[(playerID-1)][hotelName]
+        // console.log(`New playerStockLevel: ${playerStockLevel}`)
 
         let stockCounter = document.getElementById(`player${playerID}-${hotelName}-counter`)
-        stockCounter.textContent = `${toTitleCase(hotelName)}: ${newPlayerStockLevel}`
-
+        stockCounter.textContent = `${toTitleCase(hotelName)}: ${playerStockLevel}`
+        
         stockPurchaseCounter = stockPurchaseCounter + 1
         checkStockPurchaseCounter()
 
@@ -269,13 +260,29 @@ function takeTurn(session, playerID, phase) {
     }
 
     stockButtons.forEach((button) => {
-      
-      button.addEventListener('click', function() {
-        let hotelName = button.getAttribute('hotel')
-        handleClickStockButton(hotelName)
-      })
+      button.addEventListener('click', handleClickStockButton)
     })
 
+    // Keep track of stock purchases
+    function checkStockPurchaseCounter () {
+      if (stockPurchaseCounter === 3) {
+        console.log(`Player ${playerID} has bought ${stockPurchaseCounter} shares.`)
+        stockPurchaseCounter = 0
+
+        // Remove click event listeners from buy stock buttons
+        stockButtons.forEach((button) => {
+          button.removeEventListener('click', handleClickStockButton)
+        })
+
+        takeTurn(session, playerID,3)
+
+      } else if (stockPurchaseCounter < 3) {
+        console.log(`Player ${playerID} has bought ${stockPurchaseCounter} shares.`)
+      } else {
+        console.log(`You messed up somewhere bud - stockPurchaseCounter is ${stockPurchaseCounter}`)
+      }
+    }
+    
   } else if (phase === 3) {
     console.log("Its now Phase 3 of the turn")
     drawTile(session, playerID)

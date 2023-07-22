@@ -51,7 +51,6 @@ export function removeTileFromTray(session, playerID, tileName) {
     const foundElement = player.tileTray.find((tile) => tile.name === tileName);
 
     const indexToRemove = player.tileTray.indexOf(foundElement);
-    console.log(indexToRemove)
     if (indexToRemove !== -1) {
     session.players[(playerID-1)].tileTray.splice(indexToRemove, 1);
     }
